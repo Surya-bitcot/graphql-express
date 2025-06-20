@@ -1,0 +1,33 @@
+{
+  "name": "thread-app-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./build/index.js",
+    "dev": "tsc-watch --onSuccess \"npm start\"",
+    "build": "tsc && cp -r src/generated build/generated"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.0.3",
+    "prisma": "^6.9.0",
+    "tsc-watch": "^7.1.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.12.2",
+    "@prisma/client": "^6.10.1",
+    "@types/express": "^4.17.21",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "graphql": "^16.11.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
