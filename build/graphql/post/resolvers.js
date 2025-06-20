@@ -22,21 +22,28 @@ const queries = {
 const mutations = {
     createPost: async (_, args, context) => {
         var _a;
+        // console.log("create post resolverrrrrrrrrrr")
         if (!((_a = context === null || context === void 0 ? void 0 : context.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new Error("Unauthorized");
-        // Inject userId from context
+        // console.log('User in context:', context.user); // Debug log
+        if (context.user.role !== "ADMIN")
+            throw new Error("Only admin can create posts");
         return await post_1.default.createPost(Object.assign(Object.assign({}, args), { userId: context.user.id }));
     },
     updatePost: async (_, { id, title, description }, context) => {
         var _a;
         if (!((_a = context === null || context === void 0 ? void 0 : context.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new Error("Unauthorized");
+        if (context.user.role !== "ADMIN")
+            throw new Error("Only admin can update posts");
         return await post_1.default.upadtePostById({ id, title, description, userId: context.user.id });
     },
     deletePost: async (_, { id }, context) => {
         var _a;
         if (!((_a = context === null || context === void 0 ? void 0 : context.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new Error("Unauthorized");
+        if (context.user.role !== "ADMIN")
+            throw new Error("Only admin can delete posts");
         return await post_1.default.deletePostById({ id, userId: context.user.id });
     }
 };

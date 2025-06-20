@@ -21,8 +21,12 @@ async function init() {
     // @ts-ignore
     const token = req.headers['token'];
     try {
-      const user = UserService.decodeJwtToken(token as string);
-      return { user }; // <-- Wrap in object
+      const decoded = UserService.decodeJwtToken(token as string);
+      let user = null;
+      if (decoded && typeof decoded === 'object' && 'id' in decoded) {
+        user = await UserService.getUserById((decoded as any).id);
+      }
+      return { user };
     } catch (error) {
       return {};
     }

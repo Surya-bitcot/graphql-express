@@ -9,6 +9,7 @@ export interface CreateUserPayload {
   lastName?: string;
   email: string;
   password: string;
+  role?: string;
 }
 
 export interface GetUserTokenPayload {
@@ -24,7 +25,7 @@ export interface updateUserPayload {
 
 class UserService {
   public static async createUser(payload: CreateUserPayload) {
-    const { firstName, lastName, email, password } = payload;
+    const { firstName, lastName, email, password, role } = payload;
 
     // Generate a salt and hash the password with it
     const salt = await bcrypt.genSalt(10);
@@ -37,6 +38,7 @@ class UserService {
         email,
         password: hashedPassword,
         salt: salt,
+        role: (role as any) || "USER",
       },
     });
   }
@@ -68,6 +70,7 @@ class UserService {
       {
         id: user.id,
         email: user.email,
+        role: user.role
       },
       process.env.JWT_SECRET as string,
       {
@@ -75,7 +78,8 @@ class UserService {
       }
     );
 
-    // console.log(`Token : ${token} \n email : ${user.email} \n id : ${user.id} \n firstname : ${user.firstName}`)
+
+    // console.log(`Token : ${token} \n email : ${user.email} \n id : ${user.id} \n firstname : ${user.role}`)
 
     return token
   }

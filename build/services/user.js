@@ -10,7 +10,7 @@ const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 class UserService {
     static async createUser(payload) {
-        const { firstName, lastName, email, password } = payload;
+        const { firstName, lastName, email, password, role } = payload;
         // Generate a salt and hash the password with it
         const salt = await bcryptjs_1.default.genSalt(10);
         const hashedPassword = await bcryptjs_1.default.hash(password, salt);
@@ -21,6 +21,7 @@ class UserService {
                 email,
                 password: hashedPassword,
                 salt: salt,
+                role: role || "USER",
             },
         });
     }
@@ -44,10 +45,11 @@ class UserService {
         const token = jsonwebtoken_1.default.sign({
             id: user.id,
             email: user.email,
+            role: user.role
         }, process.env.JWT_SECRET, {
             expiresIn: "30m",
         });
-        // console.log(`Token : ${token} \n email : ${user.email} \n id : ${user.id} \n firstname : ${user.firstName}`)
+        // console.log(`Token : ${token} \n email : ${user.email} \n id : ${user.id} \n firstname : ${user.role}`)
         return token;
     }
     static decodeJwtToken(token) {

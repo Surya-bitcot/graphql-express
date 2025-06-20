@@ -20,6 +20,8 @@ export interface deletePostPayload {
 
 class PostService {
   public static async createPost({ title, description, userId }: createPostPayload) {
+
+    // console.log('create post serviceeeeeeeeeeeeeeeeeeeee')
     if (!userId) {
       throw new Error("userId is required to create a post");
     }

@@ -8,6 +8,6 @@ exports.typeDef = `#graphql
     lastName: String!
     email: String!
     profileImageURL: String!
-
+    role: String!
   }
 `;

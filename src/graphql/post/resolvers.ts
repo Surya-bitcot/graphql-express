@@ -18,20 +18,24 @@ const queries = {
 
 const mutations = {
   createPost: async (_: any, args: Omit<createPostPayload, "userId">, context: any) => {
+    // console.log("create post resolverrrrrrrrrrr")
     if (!context?.user?.id) throw new Error("Unauthorized");
-    // Inject userId from context
+    // console.log('User in context:', context.user); // Debug log
+    if (context.user.role !== "ADMIN") throw new Error("Only admin can create posts");
     return await PostService.createPost({ ...args, userId: context.user.id });
   },
 
-   updatePost: async (_: any, { id, title, description }: any, context: any) => {
-        if (!context?.user?.id) throw new Error("Unauthorized");
-        return await PostService.upadtePostById({ id, title, description, userId: context.user.id });
-    },
+  updatePost: async (_: any, { id, title, description }: any, context: any) => {
+    if (!context?.user?.id) throw new Error("Unauthorized");
+    if (context.user.role !== "ADMIN") throw new Error("Only admin can update posts");
+    return await PostService.upadtePostById({ id, title, description, userId: context.user.id });
+  },
 
-    deletePost: async (_: any, { id }: any, context: any) => {
-        if (!context?.user?.id) throw new Error("Unauthorized");
-        return await PostService.deletePostById({ id, userId: context.user.id });
-    }
+  deletePost: async (_: any, { id }: any, context: any) => {
+    if (!context?.user?.id) throw new Error("Unauthorized");
+    if (context.user.role !== "ADMIN") throw new Error("Only admin can delete posts");
+    return await PostService.deletePostById({ id, userId: context.user.id });
+  }
 };
 
 export const resolvers = { queries, mutations };

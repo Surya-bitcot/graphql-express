@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../lib/db");
 class PostService {
     static async createPost({ title, description, userId }) {
+        // console.log('create post serviceeeeeeeeeeeeeeeeeeeee')
         if (!userId) {
             throw new Error("userId is required to create a post");
         }

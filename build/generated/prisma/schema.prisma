@@ -8,6 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id              String  @id @default(uuid())
   firstName       String  @map("first_name")
@@ -16,6 +21,7 @@ model User {
   email           String  @unique
   password        String
   salt            String
+  role            Role    @default(USER)
   posts           Post[]
 
   @@map("users")
