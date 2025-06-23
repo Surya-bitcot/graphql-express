@@ -18,6 +18,16 @@ const queries = {
         }
         return post_1.default.getPostsByUserId(context.user.id);
     },
+    getAllAdminPostsForUser: async (_, __, context) => {
+        var _a;
+        if (!((_a = context === null || context === void 0 ? void 0 : context.user) === null || _a === void 0 ? void 0 : _a.id)) {
+            throw new Error("please logged in first");
+        }
+        if (context.user.role !== "USER") {
+            throw new Error("Only users with USER role can view admin posts");
+        }
+        return post_1.default.getAllAdminPosts();
+    },
 };
 const mutations = {
     createPost: async (_, args, context) => {

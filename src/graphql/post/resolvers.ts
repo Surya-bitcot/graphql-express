@@ -14,6 +14,16 @@ const queries = {
 
     return PostService.getPostsByUserId(context.user.id);
   },
+
+  getAllAdminPostsForUser: async (_: any, __: any, context: any) => {
+    if (!context?.user?.id) {
+      throw new Error("please logged in first");
+    }
+    if (context.user.role !== "USER") {
+      throw new Error("Only users with USER role can view admin posts");
+    }
+    return PostService.getAllAdminPosts();
+  },
 };
 
 const mutations = {

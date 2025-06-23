@@ -42,5 +42,15 @@ class PostService {
         await db_1.prismaClient.post.delete({ where: { id } });
         return true;
     }
+    static async getAllAdminPosts() {
+        const adminUsers = await db_1.prismaClient.user.findMany({
+            where: { role: "ADMIN" },
+            select: { id: true },
+        });
+        const adminUserIds = adminUsers.map((user) => user.id);
+        return db_1.prismaClient.post.findMany({
+            where: { userId: { in: adminUserIds } },
+        });
+    }
 }
 exports.default = PostService;
