@@ -14,25 +14,52 @@ enum Role {
 }
 
 model User {
-  id              String  @id @default(uuid())
-  firstName       String  @map("first_name")
-  lastName        String? @map("last_name")
-  profileImageURL String? @map("profile_image_url")
-  email           String  @unique
+  id              String    @id @default(uuid())
+  firstName       String    @map("first_name")
+  lastName        String?   @map("last_name")
+  profileImageURL String?   @map("profile_image_url")
+  email           String    @unique
   password        String
   salt            String
-  role            Role    @default(USER)
+  role            Role      @default(USER)
   posts           Post[]
+  likes           Like[]
+  comments        Comment[]
 
   @@map("users")
 }
 
 model Post {
-  id          String @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   userId      String
-  user        User   @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  likes       Like[]
+  comments    Comment[]
 
   @@map("post")
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("like")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("comment")
 }

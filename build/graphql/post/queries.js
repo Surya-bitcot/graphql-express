@@ -4,5 +4,5 @@ exports.queries = void 0;
 exports.queries = `#graphql
     getPostsByUserId(userId: String!): [Post],
     getMyPosts: [Post],
-    getAllAdminPostsForUser: [Post]
+    getAllPosts: [Post]
 `;

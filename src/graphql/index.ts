@@ -1,28 +1,33 @@
 import { ApolloServer } from "@apollo/server";
 import { User } from "./user";
 import { Post } from "./post";
+import { Like } from "./like";
 
 async function createApolloGraphqlServer() {
   const gqlServer = new ApolloServer({
     typeDefs: `
       ${User.typeDef}
       ${Post.typeDef}
+      ${Like.typeDef}
 
       type Query {
         ${User.queries}
         ${Post.queries}
+        ${Like.queries}
         getContext: String
       }
 
       type Mutation {
         ${User.mutations}
         ${Post.mutations}
+        ${Like.mutations}
       }
     `,
     resolvers: {
   Query: {
     ...User.resolvers.queries,
-    ...Post.resolvers.queries, // <-- Add this line!
+    ...Post.resolvers.queries,
+    ...Like.resolvers.queries,
     getContext: (_: any, __: any, context: any) => {
       // console.log("context", context);
       return "Context logged";
@@ -31,6 +36,7 @@ async function createApolloGraphqlServer() {
   Mutation: {
     ...User.resolvers.mutations,
     ...Post.resolvers.mutations,
+    ...Like.resolvers.mutations
   },
 },
   });

@@ -4,5 +4,6 @@ export const typeDef = `#graphql
         title: String!
         description: String!
         userId: String!
+        likeCount: Int!
     }
 `;

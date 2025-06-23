@@ -18,15 +18,15 @@ const queries = {
         }
         return post_1.default.getPostsByUserId(context.user.id);
     },
-    getAllAdminPostsForUser: async (_, __, context) => {
+    getAllPosts: async (_, __, context) => {
         var _a;
         if (!((_a = context === null || context === void 0 ? void 0 : context.user) === null || _a === void 0 ? void 0 : _a.id)) {
             throw new Error("please logged in first");
         }
-        if (context.user.role !== "USER") {
-            throw new Error("Only users with USER role can view admin posts");
-        }
-        return post_1.default.getAllAdminPosts();
+        // if (context.user.role !== "USER") {
+        //   throw new Error("Only users with USER role can view admin posts");
+        // }
+        return post_1.default.getAllPosts();
     },
 };
 const mutations = {
@@ -46,7 +46,12 @@ const mutations = {
             throw new Error("Unauthorized");
         if (context.user.role !== "ADMIN")
             throw new Error("Only admin can update posts");
-        return await post_1.default.upadtePostById({ id, title, description, userId: context.user.id });
+        return await post_1.default.upadtePostById({
+            id,
+            title,
+            description,
+            userId: context.user.id,
+        });
     },
     deletePost: async (_, { id }, context) => {
         var _a;
@@ -55,6 +60,10 @@ const mutations = {
         if (context.user.role !== "ADMIN")
             throw new Error("Only admin can delete posts");
         return await post_1.default.deletePostById({ id, userId: context.user.id });
-    }
+    },
 };
-exports.resolvers = { queries, mutations };
+const resolvers = {
+    queries,
+    mutations,
+};
+exports.resolvers = resolvers;
